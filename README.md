@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# Interactive Data Visualization Tool
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a fully functional interactive web application that allows users to upload CSV or Excel files and generate dynamic visualizations using D3.js. The tool provides multiple chart types and real-time filtering, giving users deep insight into their datasets.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- 📂 **File Upload**: Upload `.csv` or `.xlsx` files.
+- 📊 **Chart Types**: Bar chart, Line chart, Pie chart, Heatmap.
+- 🎛️ **Filters**: Filter data dynamically based on numerical values or categories.
+- ⚡ **Real-Time Visualization**: Changes are reflected instantly when filters or chart types are updated.
+- 🌐 **Responsive UI**: Built with React and D3.js for a clean, modern user experience.
 
-### `npm start`
+## 📊 Data Analysis
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This project focuses on **data analysis** and visualization. By allowing users to upload CSV or Excel files, it processes and analyzes the data to provide insightful visualizations.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Key Data Analysis Features:
+- **Data Processing**: Using **pandas**, the project processes and transforms the uploaded dataset, cleaning and structuring it for meaningful insights.
+- **Visualization**: Different types of charts (bar charts, pie charts, line graphs, heatmaps) are generated to help users understand trends, patterns, and distributions within the data.
+- **Filters**: Users can filter data dynamically to explore different subsets of the data (e.g., by date range, numeric ranges, or categories).
 
-### `npm test`
+Although the project does not yet incorporate machine learning, it is designed to give users the ability to conduct thorough data analysis through dynamic visualizations and real-time filtering of datasets.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Future Enhancements:
+- **Machine Learning Integration**: Potential future feature to add machine learning algorithms for predicting trends or automatically categorizing data based on historical patterns.
+- **Advanced Data Processing**: Future improvements may include adding additional data cleaning and transformation techniques to better handle missing values, outliers, and advanced analytics.
 
-### `npm run build`
+## 🧠 Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Frontend:
+- React (Vite)
+- D3.js for rendering charts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Backend:
+- Flask (Python)
+- pandas (data processing)
+- flask-cors (CORS handling)
+- flask-uploads & openpyxl (file handling)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Database:
+- PostgreSQL (optional for future use, not yet implemented in the current version)
 
-### `npm run eject`
+## 📁 Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+/Frontend  
+└── src/  
+    ├── components/  
+    │   ├── FileUpload.jsx  
+    │   ├── ChartControls.jsx  
+    │   ├── Filters.jsx  
+    │   └── VisualizationArea.jsx  
+    └── App.jsx  
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+/Backend  
+├── app.py  
+├── Uploads/  
+└── requirements.txt  
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🛠️ Setup Instructions
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Backend
 
-## Learn More
+1. Create and activate a virtual environment:
+   python -m venv venv  
+   source venv/bin/activate (or venv\Scripts\activate on Windows)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. Install dependencies:
+   pip install -r requirements.txt
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3. Run the Flask server:
+   python app.py
 
-### Code Splitting
+### Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. Install dependencies:
+   npm install
 
-### Analyzing the Bundle Size
+2. Run the React dev server:
+   npm run dev
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Your frontend will run on `http://localhost:5173` and will communicate with the backend at `http://localhost:5000`.
 
-### Making a Progressive Web App
+## 📌 Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **JWT Authentication** and **Docker** were skipped intentionally for simplicity and demo purposes.
+- The project focuses on client-side interactivity, filters, and rendering charts — perfect for portfolios or data exploration.
 
-### Advanced Configuration
+## 🧑‍💻 Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**Zachary Duncan**  

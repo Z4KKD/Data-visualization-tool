@@ -1,0 +1,29 @@
+2025-04-23 20:47:30,526 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:47:30,526 - [33mPress CTRL+C to quit[0m
+2025-04-23 20:48:00,234 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:48:00,234 - [33mPress CTRL+C to quit[0m
+2025-04-23 20:48:00,236 -  * Restarting with stat
+2025-04-23 20:48:01,428 -  * Debugger is active!
+2025-04-23 20:48:01,438 -  * Debugger PIN: 471-676-021
+2025-04-23 20:49:32,075 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:49:32,080 - [33mPress CTRL+C to quit[0m
+2025-04-23 20:49:32,082 -  * Restarting with stat
+2025-04-23 20:49:33,269 -  * Debugger is active!
+2025-04-23 20:49:33,279 -  * Debugger PIN: 471-676-021
+2025-04-23 20:50:01,488 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:50:01,488 - [33mPress CTRL+C to quit[0m
+2025-04-23 20:50:16,453 - 127.0.0.1 - - [23/Apr/2025 20:50:16] "[33mGET / HTTP/1.1[0m" 404 -
+2025-04-23 20:50:42,140 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:50:42,140 - [33mPress CTRL+C to quit[0m
+2025-04-23 20:52:44,011 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:52:44,011 - [33mPress CTRL+C to quit[0m
+2025-04-23 20:57:12,706 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-04-23 20:57:12,707 [33mPress CTRL+C to quit[0m
+2025-04-23 20:57:37,664 127.0.0.1 - - [23/Apr/2025 20:57:37] "[33mGET / HTTP/1.1[0m" 404 -
