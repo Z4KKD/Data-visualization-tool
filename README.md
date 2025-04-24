@@ -38,7 +38,7 @@ Although the project does not yet incorporate machine learning, it is designed t
 - flask-uploads & openpyxl (file handling)
 
 ### Database:
-- PostgreSQL (optional for future use, not yet implemented in the current version)
+- PostgreSQL
 
 ## 📁 Project Structure
 
