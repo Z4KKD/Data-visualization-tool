@@ -2,6 +2,8 @@
 
 This is a fully functional interactive web application that allows users to upload CSV or Excel files and generate dynamic visualizations using D3.js. The tool provides multiple chart types and real-time filtering, giving users deep insight into their datasets.
 
+![Logo](https://github.com/Z4KKD/Data-visualization-tool/blob/main/DataVisualizationTool.png)
+
 ## 🚀 Features
 
 - 📂 **File Upload**: Upload `.csv` or `.xlsx` files.
