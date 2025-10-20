@@ -1,4 +1,5 @@
 # Ignore frontend node_modules
+node_modules/
 /frontend/node_modules/
 
 # Ignore Python virtual environment
@@ -9,3 +10,14 @@
 
 # Ignore macOS system files
 .DS_Store
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+backend/Uploads/*.csv
