@@ -98,33 +98,6 @@ def grouped_summary():
     except Exception as e:
         return jsonify(error=str(e)), 500
 
-@app.route('/filter', methods=['POST'])
-def filter_data():
-    file = request.files.get('file')
-    filters = request.json.get('filters', {})  # e.g., {"Salary": {"gt": 50000}}
-    if not file:
-        return jsonify(error='No file uploaded'), 400
-    try:
-        df = load_file(file)
-
-        for col, condition in filters.items():
-            if col not in df.columns:
-                continue
-            for op, val in condition.items():
-                if op == 'gt':
-                    df = df[df[col] > val]
-                elif op == 'lt':
-                    df = df[df[col] < val]
-                elif op == 'eq':
-                    df = df[df[col] == val]
-                elif op == 'neq':
-                    df = df[df[col] != val]
-
-        filtered = df.head(50).to_dict(orient='records')
-        return jsonify(filtered=filtered), 200
-    except Exception as e:
-        return jsonify(error=str(e)), 500
-
 @app.route('/')
 def index():
     return '✅ Flask backend running with advanced Python analytics!'

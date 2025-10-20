@@ -5,23 +5,23 @@ const VisualizationArea = ({ data, chartType, summary }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    if (data.length === 0) return;
+    if (!data.length) return;
 
     const svg = d3.select(svgRef.current)
       .attr('width', 600)
       .attr('height', 400);
 
-    svg.selectAll('*').remove(); // Clear previous charts
+    svg.selectAll('*').remove(); // Clear previous chart
 
     switch (chartType) {
       case 'bar':
         renderBarChart(svg, data, summary);
         break;
-      case 'pie':
-        renderPieChart(svg, data);
-        break;
       case 'line':
         renderLineChart(svg, data, summary);
+        break;
+      case 'pie':
+        renderPieChart(svg, data);
         break;
       case 'scatter':
         renderScatterPlot(svg, data);
@@ -34,51 +34,34 @@ const VisualizationArea = ({ data, chartType, summary }) => {
     }
   }, [data, chartType, summary]);
 
+  // --- Chart Renderers ---
   const renderBarChart = (svg, data, summary) => {
     const margin = { top: 50, right: 30, bottom: 50, left: 60 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
-    const x = d3.scaleBand()
-      .domain(data.map(d => d.Name))
-      .range([0, width])
-      .padding(0.2);
+    const x = d3.scaleBand().domain(data.map(d => d.Name)).range([0, width]).padding(0.2);
+    const y = d3.scaleLinear().domain([0, d3.max(data, d => d.Salary)]).nice().range([height, 0]);
 
-    const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.Salary)])
-      .nice()
-      .range([height, 0]);
+    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    const g = svg.append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
-
-    // Bars
     g.selectAll('.bar')
       .data(data)
       .enter()
       .append('rect')
-      .attr('class', 'bar')
       .attr('x', d => x(d.Name))
       .attr('y', d => y(0))
       .attr('width', x.bandwidth())
       .attr('height', 0)
       .attr('fill', '#1f77b4')
-      .transition()
-      .duration(800)
+      .transition().duration(800)
       .attr('y', d => y(d.Salary))
       .attr('height', d => height - y(d.Salary));
 
-    // Axis
-    g.append('g')
-      .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(x))
-      .selectAll('text')
-      .attr('transform', 'rotate(-30)')
-      .style('text-anchor', 'end');
-
+    g.append('g').attr('transform', `translate(0,${height})`).call(d3.axisBottom(x))
+      .selectAll('text').attr('transform', 'rotate(-30)').style('text-anchor', 'end');
     g.append('g').call(d3.axisLeft(y));
 
-    // Title
     svg.append('text')
       .attr('x', width / 2 + margin.left)
       .attr('y', 25)
@@ -88,11 +71,9 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('font-weight', 'bold')
       .text('Salary by Name');
 
-    // Draw mean line if summary exists
-    if (summary && summary.Salary && summary.Salary.mean !== undefined) {
+    if (summary?.Salary?.mean !== undefined) {
       g.append('line')
-        .attr('x1', 0)
-        .attr('x2', width)
+        .attr('x1', 0).attr('x2', width)
         .attr('y1', y(summary.Salary.mean))
         .attr('y2', y(summary.Salary.mean))
         .attr('stroke', 'red')
@@ -113,23 +94,13 @@ const VisualizationArea = ({ data, chartType, summary }) => {
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
-    const x = d3.scalePoint()
-      .domain(data.map(d => d.Name))
-      .range([0, width]);
+    const x = d3.scalePoint().domain(data.map(d => d.Name)).range([0, width]);
+    const y = d3.scaleLinear().domain([0, d3.max(data, d => d.Salary)]).nice().range([height, 0]);
 
-    const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.Salary)])
-      .nice()
-      .range([height, 0]);
-
-    const line = d3.line()
-      .x(d => x(d.Name))
-      .y(d => y(d.Salary));
-
+    const line = d3.line().x(d => x(d.Name)).y(d => y(d.Salary));
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    g.append('path')
-      .datum(data)
+    g.append('path').datum(data)
       .attr('fill', 'none')
       .attr('stroke', '#ff7300')
       .attr('stroke-width', 2.5)
@@ -147,11 +118,9 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('font-weight', 'bold')
       .text('Salary Trend by Name');
 
-    // Draw mean line if summary exists
-    if (summary && summary.Salary && summary.Salary.mean !== undefined) {
+    if (summary?.Salary?.mean !== undefined) {
       g.append('line')
-        .attr('x1', 0)
-        .attr('x2', width)
+        .attr('x1', 0).attr('x2', width)
         .attr('y1', y(summary.Salary.mean))
         .attr('y2', y(summary.Salary.mean))
         .attr('stroke', 'red')
@@ -168,8 +137,7 @@ const VisualizationArea = ({ data, chartType, summary }) => {
   };
 
   const renderPieChart = (svg, data) => {
-    const width = 600;
-    const height = 400;
+    const width = 600, height = 400;
     const radius = Math.min(width, height) / 2 - 20;
 
     const pieData = data.map(d => ({ name: d.Name, value: d.Salary }));
@@ -181,16 +149,9 @@ const VisualizationArea = ({ data, chartType, summary }) => {
     svg.attr('width', width).attr('height', height);
     const g = svg.append('g').attr('transform', `translate(${width/2},${height/2})`);
 
-    const arcs = g.selectAll('.arc')
-      .data(pie(pieData))
-      .enter()
-      .append('g')
-      .attr('class', 'arc');
+    const arcs = g.selectAll('.arc').data(pie(pieData)).enter().append('g').attr('class', 'arc');
 
-    arcs.append('path')
-      .attr('d', arc)
-      .attr('fill', d => color(d.data.name));
-
+    arcs.append('path').attr('d', arc).attr('fill', d => color(d.data.name));
     arcs.append('text')
       .attr('transform', d => `translate(${labelArc.centroid(d)})`)
       .attr('dy', '.35em')
@@ -208,22 +169,17 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .text('Department Salary Distribution');
   };
 
-
   const renderScatterPlot = (svg, data) => {
-    if (!data[0].Age) return; // Ensure Age exists
-
+    if (!data[0].Age) return;
     const margin = { top: 50, right: 30, bottom: 50, left: 60 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
     const x = d3.scaleLinear().domain([0, d3.max(data, d => d.Salary)]).range([0, width]);
     const y = d3.scaleLinear().domain([0, d3.max(data, d => d.Age)]).range([height, 0]);
-
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    g.selectAll('circle')
-      .data(data)
-      .enter()
+    g.selectAll('circle').data(data).enter()
       .append('circle')
       .attr('cx', d => x(d.Salary))
       .attr('cy', d => y(d.Age))
@@ -254,15 +210,11 @@ const VisualizationArea = ({ data, chartType, summary }) => {
 
     const x = d3.scaleBand().domain(names).range([0, width]).padding(0.05);
     const y = d3.scaleBand().domain(departments).range([0, height]).padding(0.05);
-
-    const color = d3.scaleSequential(d3.interpolateOrRd)
-      .domain([0, d3.max(data, d => d.Salary)]);
+    const color = d3.scaleSequential(d3.interpolateOrRd).domain([0, d3.max(data, d => d.Salary)]);
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    g.selectAll('rect')
-      .data(data)
-      .enter()
+    g.selectAll('rect').data(data).enter()
       .append('rect')
       .attr('x', d => x(d.Name))
       .attr('y', d => y(d.Department))
@@ -283,11 +235,7 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .text('Heatmap: Salary by Name and Department');
   };
 
-  return (
-    <div className="mt-4">
-      <svg ref={svgRef}></svg>
-    </div>
-  );
+  return <div className="mt-4"><svg ref={svgRef}></svg></div>;
 };
 
 export default VisualizationArea;
