@@ -1,30 +1,35 @@
 /* Center the app vertically and horizontally */
 body, html {
-  height: 125%;
+  height: 100%;
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: #1e1e2f;
+  background-color: #023020; /* deep dark green */
   color: #f0f0f0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 2rem 0;
+  box-sizing: border-box;
 }
 
 .app-container {
-  width: 100%;           /* fit nicely in viewport */
+  width: 95%;           
   max-width: 1000px;
-  background: #2a2a3c;
-  padding: 1.5rem;
+  background: #023020; /* match background for seamless look */
+  padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 /* Title */
 h1 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-size: 2rem;
-  color: #61dafb;
+  color: #8A9A5B; /* soft olive */
 }
 
 /* Upload button */
@@ -38,8 +43,8 @@ h1 {
 }
 
 .upload-button {
-  background-color: #61dafb;
-  color: #1e1e2f;
+  background-color: #097969; /* rich teal */
+  color: #f0f0f0;
   border: none;
   padding: 1rem 2rem;
   font-size: 1.1rem;
@@ -50,7 +55,7 @@ h1 {
 }
 
 .upload-button:hover {
-  background-color: #52b8e8;
+  background-color: #8A9A5B; /* soft olive on hover */
 }
 
 /* Chart + Data Preview Wrapper */
@@ -64,9 +69,10 @@ h1 {
 
 /* Chart container */
 .chart-container {
-  flex: 1 1 600px; /* flexible width */
-  min-width: 930px;
-  background-color: #2f2f4a;
+  flex: 1 1 600px; 
+  min-width: 300px;
+  max-width: 100%;
+  background-color: #065549; /* teal background */
   padding: 1rem;
   border-radius: 10px;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
@@ -74,19 +80,22 @@ h1 {
 
 /* Data preview on the right of chart */
 .data-preview {
-  width: 930px;          /* fixed width */
-  background-color: #252538;
+  flex: 0 0 300px; 
+  background-color: #065549; /* soft olive */
   border-radius: 8px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  max-height: 500px;
+  overflow-y: auto;
+  color: #f0f0f0;
 }
 
 .data-preview h3 {
   margin: 0;
   font-size: 1rem;
-  color: #61dafb;
+  color: #023020; /* dark title for contrast */
   text-align: center;
 }
 
@@ -97,35 +106,34 @@ h1 {
 }
 
 .data-preview th, .data-preview td {
-  border: 1px solid #444;
+  border: 1px solid #023020;
   padding: 4px;
   text-align: center;
+  color: #f0f0f0;
 }
 
 .data-preview th {
-  background-color: #333;
-  color: #fff;
+  background-color: #8A9A5B; /* dark header */
 }
 
 .data-preview tr:nth-child(even) {
-  background-color: #2a2a3c;
+  background-color: #097969; /* alternating row */
 }
 
 .data-preview tr:hover {
-  background-color: #3a3a5c;
+  background-color: #8A9A5B; /* hover row */
 }
 
 /* ChartControls dropdown */
-
 .chart-controls select {
   padding: 8px 12px;
   border-radius: 6px;
-  border: 1px solid #555;
-  background: #2a2a3c;
-  color: #fff;
+  border: 1px solid #023020;
+  background: #097969; /* teal background */
+  color: #f0f0f0;
   cursor: pointer;
 }
 
 .chart-controls select:hover {
-  background: #3a3a5c;
+  background: #8A9A5B; /* soft olive on hover */
 }
