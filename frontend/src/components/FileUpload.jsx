@@ -73,13 +73,18 @@ const FileUpload = () => {
       {loading && <p style={{ color:'#61dafb' }}>Uploading & processing...</p>}
       {error && <p style={{ color:'#ff6b6b' }}>{error}</p>}
 
-      {/* Charts & Data */}
-      {previewData.length > 0 && (
-        <>
-          <ChartControls chartType={chartType} setChartType={setChartType} />
-          <VisualizationArea data={previewData} chartType={chartType} summary={numericSummary} />
+      {/* Chart Controls */}
+      {previewData.length > 0 && <ChartControls chartType={chartType} setChartType={setChartType} />}
 
-          {/* Data Preview */}
+      {/* Side-by-side chart + data preview */}
+      {previewData.length > 0 && (
+        <div className="chart-data-wrapper">
+          {/* Chart */}
+          <div className="chart-container">
+            <VisualizationArea data={previewData} chartType={chartType} summary={numericSummary} />
+          </div>
+
+          {/* Scrollable Data Preview */}
           <div className="data-preview">
             <h3>Data Preview:</h3>
             <table>
@@ -93,23 +98,23 @@ const FileUpload = () => {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
 
-          {/* Numeric Summary */}
-          {Object.keys(numericSummary).length > 0 && (
-            <div className="numeric-summary">
-              <h3>Numeric Summary:</h3>
-              {Object.entries(numericSummary).map(([col, stats]) => (
-                <div key={col}>
-                  <strong>{col}</strong>
-                  <p>Mean: {stats.mean}</p>
-                  <p>Min: {stats.min}</p>
-                  <p>Max: {stats.max}</p>
-                  <p>Std: {stats.std}</p>
-                </div>
-              ))}
+      {/* Numeric Summary */}
+      {Object.keys(numericSummary).length > 0 && (
+        <div className="numeric-summary">
+          <h3>Numeric Summary:</h3>
+          {Object.entries(numericSummary).map(([col, stats]) => (
+            <div key={col}>
+              <strong>{col}</strong>
+              <p>Mean: {stats.mean}</p>
+              <p>Min: {stats.min}</p>
+              <p>Max: {stats.max}</p>
+              <p>Std: {stats.std}</p>
             </div>
-          )}
-        </>
+          ))}
+        </div>
       )}
     </div>
   );

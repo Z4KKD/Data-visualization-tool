@@ -1,10 +1,12 @@
-/* Center the app vertically and horizontally */
+/* Galaxy-like animated background */
 body, html {
   height: 100%;
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background-color: #023020; /* deep dark green */
-  color: #f0f0f0;
+  overflow: hidden; /* prevent scrollbars */
+  background: linear-gradient(-60deg, #023020, #065549, #023020, #065549);
+  background-size: 600% 600%; /* bigger gradient for more movement */
+  animation: galaxyBackground 15s ease infinite; /* faster than before */
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -12,11 +14,25 @@ body, html {
   box-sizing: border-box;
 }
 
+/* Smooth gradient animation */
+@keyframes galaxyBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
 .app-container {
-  width: 95%;           
+  width: 100%;           
   max-width: 1000px;
   background: #023020; /* match background for seamless look */
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0,0,0,0.6);
   text-align: center;
@@ -29,7 +45,6 @@ body, html {
 h1 {
   margin-bottom: 1rem;
   font-size: 2rem;
-  color: #8A9A5B; /* soft olive */
 }
 
 /* Upload button */
@@ -55,47 +70,60 @@ h1 {
 }
 
 .upload-button:hover {
-  background-color: #8A9A5B; /* soft olive on hover */
+  background-color: #33af67; /* soft olive on hover */
 }
 
 /* Chart + Data Preview Wrapper */
 .chart-data-wrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: row; /* side by side */
   align-items: flex-start;
   gap: 1rem;
-  flex-wrap: wrap; /* responsive */
+  width: 100%;
+  margin-top: 1rem;
 }
 
 /* Chart container */
 .chart-container {
-  flex: 1 1 600px; 
-  min-width: 300px;
-  max-width: 100%;
-  background-color: #065549; /* teal background */
+  flex: 1; /* take remaining space */
+  min-width: 600px; /* ensure chart isn't too small */
+  background-color: #065549;
   padding: 1rem;
   border-radius: 10px;
   box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
 }
 
-/* Data preview on the right of chart */
+.chart-controls select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #023020;
+  background: #097969; /* teal background */
+  color: #f0f0f0;
+  cursor: pointer;
+}
+
+.chart-controls select:hover {
+  background: #33af67; /* soft olive on hover */
+}
+
+/* Data preview container */
 .data-preview {
-  flex: 0 0 300px; 
-  background-color: #065549; /* soft olive */
+  flex: 0 0 600px; /* fixed width, can grow if needed */
+  max-width: 300px; /* optional max width */
+  background-color: #065549;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 500px;
-  overflow-y: auto;
+  max-height: 450px; /* maximum height before scrolling */
+  overflow: auto;    /* scroll only if content exceeds max-height or width */
   color: #f0f0f0;
 }
-
 .data-preview h3 {
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   font-size: 1rem;
-  color: #023020; /* dark title for contrast */
+  color: #f0f0f0;
   text-align: center;
 }
 
@@ -107,33 +135,37 @@ h1 {
 
 .data-preview th, .data-preview td {
   border: 1px solid #023020;
-  padding: 4px;
+  padding: 3px;
   text-align: center;
   color: #f0f0f0;
 }
 
 .data-preview th {
-  background-color: #8A9A5B; /* dark header */
+  background-color: #097969;
 }
 
 .data-preview tr:nth-child(even) {
-  background-color: #097969; /* alternating row */
+  background-color: #097969;
 }
 
 .data-preview tr:hover {
-  background-color: #8A9A5B; /* hover row */
+  background-color: #8A9A5B;
 }
 
-/* ChartControls dropdown */
-.chart-controls select {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: 1px solid #023020;
-  background: #097969; /* teal background */
+/* Numeric summary */
+.numeric-summary {
+  margin-top: 1rem;
+  background-color: #065549;
+  border-radius: 8px;
+  padding: 1rem;
   color: #f0f0f0;
-  cursor: pointer;
 }
 
-.chart-controls select:hover {
-  background: #8A9A5B; /* soft olive on hover */
+/* Numeric summary below chart + data */
+.numeric-summary {
+  background-color: #065549;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #f0f0f0;
 }

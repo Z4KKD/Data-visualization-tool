@@ -1,13 +1,13 @@
 import React from 'react';
 
 const ChartControls = ({ chartType, setChartType }) => (
-  <div className="flex flex-col gap-2">
-    <label htmlFor="chart-type" className="mb-1">Select Chart Type:</label>
+  <div className="chart-controls flex flex-col gap-2">
+    <label htmlFor="chart-type" className="mb-1 text-gray-200">Select Chart Type:</label>
     <select
       id="chart-type"
       value={chartType}
       onChange={(e) => setChartType(e.target.value)}
-      className="p-2 border rounded"
+      className="chart-dropdown p-2 border rounded"
     >
       <option value="bar">Bar Chart</option>
       <option value="pie">Pie Chart</option>
