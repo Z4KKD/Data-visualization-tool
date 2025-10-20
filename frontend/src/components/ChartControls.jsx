@@ -15,6 +15,7 @@ const ChartControls = ({ chartType, setChartType }) => {
           <option value="pie">Pie Chart</option>
           <option value="line">Line Chart</option>
           <option value="heatmap">Heat Map</option>
+          <option value="scatter">Scatter Plot</option>
         </select>
       </div>
     </div>

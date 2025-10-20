@@ -5,34 +5,44 @@ const VisualizationArea = ({ data, chartType }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    if (data.length > 0) {
-      const svg = d3.select(svgRef.current)
-        .attr('width', 600)
-        .attr('height', 400);
+    if (data.length === 0) return;
 
-      svg.selectAll('*').remove();
+    const svg = d3.select(svgRef.current)
+      .attr('width', 600)
+      .attr('height', 400);
 
-      if (chartType === 'bar') {
+    svg.selectAll('*').remove(); // Clear previous charts
+
+    switch(chartType) {
+      case 'bar':
         renderBarChart(svg, data);
-      } else if (chartType === 'pie') {
+        break;
+      case 'pie':
         renderPieChart(svg, data);
-      } else if (chartType === 'line') {
+        break;
+      case 'line':
         renderLineChart(svg, data);
-      } else if (chartType === 'heatmap') {
+        break;
+      case 'scatter':
+        renderScatterPlot(svg, data);
+        break;
+      case 'heatmap':
         renderHeatmap(svg, data);
-      }
+        break;
+      default:
+        break;
     }
   }, [data, chartType]);
 
   const renderBarChart = (svg, data) => {
-    const margin = { top: 40, right: 30, bottom: 40, left: 40 };
+    const margin = { top: 50, right: 30, bottom: 50, left: 60 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
     const x = d3.scaleBand()
       .domain(data.map(d => d.Name))
       .range([0, width])
-      .padding(0.1);
+      .padding(0.2);
 
     const y = d3.scaleLinear()
       .domain([0, d3.max(data, d => d.Salary)])
@@ -44,23 +54,31 @@ const VisualizationArea = ({ data, chartType }) => {
 
     g.selectAll('.bar')
       .data(data)
-      .enter().append('rect')
+      .enter()
+      .append('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.Name))
-      .attr('y', d => y(d.Salary))
+      .attr('y', d => y(0))
       .attr('width', x.bandwidth())
-      .attr('height', d => height - y(d.Salary))
-      .attr('fill', '#1f77b4');
+      .attr('height', 0)
+      .attr('fill', '#1f77b4')
+      .transition()
+      .duration(800)
+      .attr('y', d => y(d.Salary))
+      .attr('height', d => height - y(d.Salary));
 
     g.append('g')
       .attr('transform', `translate(0,${height})`)
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x))
+      .selectAll('text')
+      .attr('transform', 'rotate(-30)')
+      .style('text-anchor', 'end');
 
     g.append('g').call(d3.axisLeft(y));
 
     svg.append('text')
       .attr('x', width / 2 + margin.left)
-      .attr('y', 20)
+      .attr('y', 25)
       .attr('text-anchor', 'middle')
       .attr('fill', 'white')
       .attr('font-size', '18px')
@@ -80,27 +98,27 @@ const VisualizationArea = ({ data, chartType }) => {
     const labelArc = d3.arc().outerRadius(radius).innerRadius(radius - 60);
 
     svg.attr('width', width).attr('height', height);
-    const g = svg.append('g').attr('transform', `translate(${width / 2},${height / 2})`);
+    const g = svg.append('g').attr('transform', `translate(${width/2},${height/2})`);
 
-    const arcData = pie(pieData);
+    const arcs = g.selectAll('.arc')
+      .data(pie(pieData))
+      .enter()
+      .append('g')
+      .attr('class', 'arc');
 
-    g.selectAll('.arc')
-      .data(arcData)
-      .enter().append('g')
-      .attr('class', 'arc')
-      .append('path')
+    arcs.append('path')
       .attr('d', arc)
-      .style('fill', d => color(d.data.name));
+      .attr('fill', d => color(d.data.name));
 
-    g.selectAll('.arc')
-      .append('text')
+    arcs.append('text')
       .attr('transform', d => `translate(${labelArc.centroid(d)})`)
       .attr('dy', '.35em')
       .attr('fill', 'white')
+      .style('font-size', '12px')
       .text(d => d.data.name);
 
     svg.append('text')
-      .attr('x', width / 2)
+      .attr('x', width/2)
       .attr('y', 30)
       .attr('text-anchor', 'middle')
       .attr('fill', 'white')
@@ -110,7 +128,7 @@ const VisualizationArea = ({ data, chartType }) => {
   };
 
   const renderLineChart = (svg, data) => {
-    const margin = { top: 40, right: 30, bottom: 40, left: 50 };
+    const margin = { top: 50, right: 30, bottom: 50, left: 60 };
     const width = 600 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
 
@@ -140,13 +158,48 @@ const VisualizationArea = ({ data, chartType }) => {
     g.append('g').call(d3.axisLeft(y));
 
     svg.append('text')
-      .attr('x', width / 2 + margin.left)
-      .attr('y', 20)
+      .attr('x', width/2 + margin.left)
+      .attr('y', 25)
       .attr('text-anchor', 'middle')
       .attr('fill', 'white')
       .attr('font-size', '18px')
       .attr('font-weight', 'bold')
       .text('Salary Trend by Name');
+  };
+
+  const renderScatterPlot = (svg, data) => {
+    if (!data[0].Age) return; // Ensure Age exists
+
+    const margin = { top: 50, right: 30, bottom: 50, left: 60 };
+    const width = 600 - margin.left - margin.right;
+    const height = 400 - margin.top - margin.bottom;
+
+    const x = d3.scaleLinear().domain([0, d3.max(data, d => d.Salary)]).range([0, width]);
+    const y = d3.scaleLinear().domain([0, d3.max(data, d => d.Age)]).range([height, 0]);
+
+    const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
+
+    g.selectAll('circle')
+      .data(data)
+      .enter()
+      .append('circle')
+      .attr('cx', d => x(d.Salary))
+      .attr('cy', d => y(d.Age))
+      .attr('r', 5)
+      .attr('fill', '#ff6347')
+      .attr('opacity', 0.8);
+
+    g.append('g').attr('transform', `translate(0,${height})`).call(d3.axisBottom(x));
+    g.append('g').call(d3.axisLeft(y));
+
+    svg.append('text')
+      .attr('x', width/2 + margin.left)
+      .attr('y', 25)
+      .attr('text-anchor', 'middle')
+      .attr('fill', 'white')
+      .attr('font-size', '18px')
+      .attr('font-weight', 'bold')
+      .text('Salary vs Age Scatter Plot');
   };
 
   const renderHeatmap = (svg, data) => {
@@ -165,7 +218,7 @@ const VisualizationArea = ({ data, chartType }) => {
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`);
 
-    g.selectAll()
+    g.selectAll('rect')
       .data(data)
       .enter()
       .append('rect')
@@ -179,7 +232,7 @@ const VisualizationArea = ({ data, chartType }) => {
     g.append('g').attr('transform', `translate(0,${height})`).call(d3.axisBottom(x));
 
     svg.append('text')
-      .attr('x', width / 2 + margin.left)
+      .attr('x', width/2 + margin.left)
       .attr('y', 30)
       .attr('text-anchor', 'middle')
       .attr('fill', 'white')
