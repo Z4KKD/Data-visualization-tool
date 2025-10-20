@@ -1,92 +1,171 @@
 # Interactive Data Visualization Tool
 
-This is a fully functional interactive web application that allows users to upload CSV or Excel files and generate dynamic visualizations using D3.js. The tool provides multiple chart types and real-time filtering, giving users deep insight into their datasets.
+This is a fully functional interactive web application that allows users to upload CSV or Excel files and generate dynamic visualizations using React, D3.js, and Python (Flask). The tool provides multiple chart types and real-time filtering, giving users deep insight into their datasets.
 
 ![Logo](https://github.com/Z4KKD/Data-visualization-tool/blob/main/IDVT.png)
 
+---
+
 ## 🚀 Features
 
-- 📂 **File Upload**: Upload `.csv` or `.xlsx` files.
-- 📊 **Chart Types**: Bar chart, Line chart, Pie chart, Heatmap.
-- 🎛️ **Filters**: Filter data dynamically based on numerical values or categories.
-- ⚡ **Real-Time Visualization**: Changes are reflected instantly when filters or chart types are updated.
-- 🌐 **Responsive UI**: Built with React and D3.js for a clean, modern user experience.
+* 👂 **File Upload**: Upload `.csv` or `.xlsx` files.
+* 💬 **Chart Types**: Bar chart, Line chart, Pie chart, Scatter plot, Heatmap.
+* 🛣️ **Filters**: Filter data dynamically based on numerical values or categories.
+* ⚡ **Real-Time Visualization**: Changes are reflected instantly when filters or chart types are updated.
+* 🌌 **Dynamic Galaxy Background**: Animated, dark-green theme for immersive UI.
+* 🌐 **Responsive UI**: Built with React and D3.js for a modern user experience.
+
+---
 
 ## 📊 Data Analysis
 
-This project focuses on **data analysis** and visualization. By allowing users to upload CSV or Excel files, it processes and analyzes the data to provide insightful visualizations.
+The app focuses on **data analysis** and visualization. Users can upload CSV or Excel files, and the backend (Flask + Pandas) processes and analyzes the data to provide insights.
 
-### Key Data Analysis Features:
-- **Data Processing**: Using **pandas**, the project processes and transforms the uploaded dataset, cleaning and structuring it for meaningful insights.
-- **Visualization**: Different types of charts (bar charts, pie charts, line graphs, heatmaps) are generated to help users understand trends, patterns, and distributions within the data.
-- **Filters**: Users can filter data dynamically to explore different subsets of the data (e.g., by date range, numeric ranges, or categories).
+### Key Features:
 
-Although the project does not yet incorporate machine learning, it is designed to give users the ability to conduct thorough data analysis through dynamic visualizations and real-time filtering of datasets.
+* **Data Processing**: Uploaded datasets are cleaned and structured using **pandas** for meaningful analysis.
+* **Visualizations**: Various charts (bar, pie, line, scatter, heatmap) help users explore trends and patterns.
+* **Dynamic Filters**: Explore subsets of data interactively by numeric ranges or categories.
 
 ### Future Enhancements:
-- **Machine Learning Integration**: Potential future feature to add machine learning algorithms for predicting trends or automatically categorizing data based on historical patterns.
-- **Advanced Data Processing**: Future improvements may include adding additional data cleaning and transformation techniques to better handle missing values, outliers, and advanced analytics.
+
+* **Machine Learning Integration**: Predict trends or categorize data automatically.
+* **Advanced Data Processing**: Additional cleaning, handling missing values, outlier detection, and analytics.
+
+---
 
 ## 🧠 Tech Stack
 
-### Frontend:
-- React (Vite)
-- D3.js for rendering charts
+### Frontend
 
-### Backend:
-- Flask (Python)
-- pandas (data processing)
-- flask-cors (CORS handling)
-- flask-uploads & openpyxl (file handling)
-
-### Database:
-- PostgreSQL
-
-## 📁 Project Structure
-
-/Frontend  
-└── src/  
-    ├── components/  
-    │   ├── FileUpload.jsx  
-    │   ├── ChartControls.jsx  
-    │   ├── Filters.jsx  
-    │   └── VisualizationArea.jsx  
-    └── App.jsx  
-
-/Backend  
-├── app.py  
-├── Uploads/  
-└── requirements.txt  
-
-## 🛠️ Setup Instructions
+* React (Vite)
+* D3.js for rendering charts
+* Tailwind CSS (optional styling)
 
 ### Backend
 
-1. Create and activate a virtual environment:
-   python -m venv venv  
-   source venv/bin/activate (or venv\Scripts\activate on Windows)
+* Flask (Python)
+* pandas for data processing
+* flask-cors for handling CORS
+* openpyxl for Excel file processing
 
-2. Install dependencies:
-   pip install -r requirements.txt
+### Database
 
-3. Run the Flask server:
-   python app.py
+* PostgreSQL (optional for future persistence)
+
+---
+
+## 📁 Project Structure
+
+```
+/Frontend
+└── src/
+    ├── components/
+    │   ├── FileUpload.jsx
+    │   ├── ChartControls.jsx
+    │   └── VisualizationArea.jsx
+    └── App.jsx
+
+/Backend
+├── app.py
+├── Uploads/
+└── requirements.txt
+```
+
+---
+
+## 🌐 Hosting Instructions
+
+### Frontend on Netlify
+
+1. Build the frontend for production:
+
+```bash
+cd frontend
+npm run build
+```
+
+2. Drag-and-drop the `dist/` folder (or use `netlify.toml` config) in Netlify dashboard.
+3. Set environment variable if needed for API URL:
+
+```bash
+REACT_APP_API_URL=https://your-backend.onrender.com
+```
+
+### Backend on Render
+
+1. Push backend to GitHub if not already done.
+2. Create a new **Web Service** on Render.
+3. Connect your GitHub repo.
+4. Set build and start commands:
+
+```bash
+Build Command: pip install -r requirements.txt
+Start Command: gunicorn app:app
+```
+
+5. Add environment variables if needed, like `FLASK_ENV=production`.
+6. Deploy. Copy your Render service URL and use it as the API URL in the frontend.
+
+---
+
+## 🛠️ Local Setup
+
+### Backend
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate   # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+python app.py
+```
 
 ### Frontend
 
-1. Install dependencies:
-   npm install
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-2. Run the React dev server:
-   npm run dev
+* Frontend runs on `http://localhost:5173`
+* Backend runs on `http://localhost:5000`
+* Update API endpoints in frontend if needed.
 
-Your frontend will run on `http://localhost:5173` and will communicate with the backend at `http://localhost:5000`.
+---
+
+## 💾 Downloadable Version
+
+To download a ready-to-run version of this project:
+
+1. Clone the repo:
+
+```bash
+git clone https://github.com/Z4KKD/Data-visualization-tool.git
+```
+
+2. Zip the folder:
+
+```bash
+zip -r IDVT.zip Data-visualization-tool/
+```
+
+3. Extract on any machine, install dependencies (frontend: `npm install`, backend: `pip install -r requirements.txt`) and run locally.
+
+---
 
 ## 📌 Notes
 
-- **JWT Authentication** and **Docker** were skipped intentionally for simplicity and demo purposes.
-- The project focuses on client-side interactivity, filters, and rendering charts — perfect for portfolios or data exploration.
+* JWT Authentication and Docker are skipped for simplicity.
+* Focused on interactive visualization and dynamic filtering.
+* Perfect for portfolios, demos, and data exploration.
+
+---
 
 ## 🧑‍💻 Author
 
-**Zachary Duncan**  
+**Zachary Duncan**
+
+* GitHub: [Z4KKD](https://github.com/Z4KKD)
+* Portfolio: [Z4KKD](https://z4kkd.netlify.app/)
