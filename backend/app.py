@@ -2,10 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import pandas as pd
-import numpy as np
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})  # allow frontend access
+CORS(app)  # allow frontend access
 
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'Uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -13,21 +12,17 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def load_file(file):
     ext = file.filename.rsplit('.', 1)[-1].lower()
     if ext == 'csv':
-        df = pd.read_csv(file)
+        return pd.read_csv(file)
     elif ext in ('xls', 'xlsx'):
-        df = pd.read_excel(file)
+        return pd.read_excel(file)
     else:
         raise ValueError("Unsupported file type")
-    return df
 
 @app.route('/upload', methods=['POST'])
 def handle_file_upload():
-    if 'file' not in request.files:
-        return jsonify(error='No file part'), 400
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify(error='No selected file'), 400
-
+    file = request.files.get('file')
+    if not file or file.filename == '':
+        return jsonify(error='No file uploaded'), 400
     try:
         df = load_file(file)
         preview = df.head(5).to_dict(orient='records')
@@ -53,48 +48,10 @@ def summary_statistics():
         summary['sum'] = df.sum(numeric_only=True).to_dict()
         summary['count'] = df.count().to_dict()
 
-        # Correlation
-        summary['correlation'] = df.corr(numeric_only=True).to_dict()
-
         # Column types
-        summary['dtypes'] = df.dtypes.apply(lambda x: str(x)).to_dict()
+        summary['dtypes'] = df.dtypes.apply(str).to_dict()
 
         return jsonify(summary=summary), 200
-    except Exception as e:
-        return jsonify(error=str(e)), 500
-
-@app.route('/preview', methods=['POST'])
-def preview_data():
-    file = request.files.get('file')
-    if not file:
-        return jsonify(error='No file uploaded'), 400
-
-    page = int(request.form.get('page', 1))
-    per_page = int(request.form.get('per_page', 10))
-    try:
-        df = load_file(file)
-        start = (page-1)*per_page
-        end = start + per_page
-        preview = df.iloc[start:end].to_dict(orient='records')
-        return jsonify(preview=preview), 200
-    except Exception as e:
-        return jsonify(error=str(e)), 500
-
-@app.route('/grouped_summary', methods=['POST'])
-def grouped_summary():
-    file = request.files.get('file')
-    group_col = request.form.get('group_col')  # e.g., 'Department'
-    if not file:
-        return jsonify(error='No file uploaded'), 400
-    if not group_col:
-        return jsonify(error='No group column specified'), 400
-    try:
-        df = load_file(file)
-        if group_col not in df.columns:
-            return jsonify(error=f"Column '{group_col}' not found"), 400
-
-        grouped = df.groupby(group_col).agg(['mean','min','max','median','sum','count']).to_dict()
-        return jsonify(grouped_summary=grouped), 200
     except Exception as e:
         return jsonify(error=str(e)), 500
 
