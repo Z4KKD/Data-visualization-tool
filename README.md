@@ -2,6 +2,7 @@
 
 This is a fully functional interactive web application that allows users to upload CSV or Excel files and generate dynamic visualizations using React, D3.js, and Python (Flask). The tool provides multiple chart types and real-time filtering, giving users deep insight into their datasets.
 
+[Live Website](https://datavt.netlify.app/)
 ![Logo](https://github.com/Z4KKD/Data-visualization-tool/blob/main/IDVT.png)
 
 ---
@@ -152,14 +153,6 @@ zip -r IDVT.zip Data-visualization-tool/
 ```
 
 3. Extract on any machine, install dependencies (frontend: `npm install`, backend: `pip install -r requirements.txt`) and run locally.
-
----
-
-## 📌 Notes
-
-* JWT Authentication and Docker are skipped for simplicity.
-* Focused on interactive visualization and dynamic filtering.
-* Perfect for portfolios, demos, and data exploration.
 
 ---
 
