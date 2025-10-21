@@ -2,7 +2,6 @@ import React from 'react';
 
 const ChartControls = ({ chartType, setChartType }) => (
   <div className="chart-controls flex flex-col gap-2">
-    <label htmlFor="chart-type" className="mb-1 text-gray-200">Select Chart Type:</label>
     <select
       id="chart-type"
       value={chartType}

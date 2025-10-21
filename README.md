@@ -49,7 +49,6 @@ Although the project does not yet incorporate machine learning, it is designed t
     ├── components/  
     │   ├── FileUpload.jsx  
     │   ├── ChartControls.jsx  
-    │   ├── Filters.jsx  
     │   └── VisualizationArea.jsx  
     └── App.jsx  
 

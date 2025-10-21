@@ -69,7 +69,6 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('fill', 'white')
       .attr('font-size', '18px')
       .attr('font-weight', 'bold')
-      .text('Salary by Name');
 
     if (summary?.Salary?.mean !== undefined) {
       g.append('line')
@@ -116,7 +115,6 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('fill', 'white')
       .attr('font-size', '18px')
       .attr('font-weight', 'bold')
-      .text('Salary Trend by Name');
 
     if (summary?.Salary?.mean !== undefined) {
       g.append('line')
@@ -166,7 +164,6 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('fill', 'white')
       .attr('font-size', '18px')
       .attr('font-weight', 'bold')
-      .text('Department Salary Distribution');
   };
 
   const renderScatterPlot = (svg, data) => {
@@ -197,7 +194,6 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('fill', 'white')
       .attr('font-size', '18px')
       .attr('font-weight', 'bold')
-      .text('Salary vs Age Scatter Plot');
   };
 
   const renderHeatmap = (svg, data) => {
@@ -232,7 +228,6 @@ const VisualizationArea = ({ data, chartType, summary }) => {
       .attr('fill', 'white')
       .attr('font-size', '18px')
       .attr('font-weight', 'bold')
-      .text('Heatmap: Salary by Name and Department');
   };
 
   return <div className="mt-4"><svg ref={svgRef}></svg></div>;

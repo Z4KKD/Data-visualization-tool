@@ -23,30 +23,29 @@ const FileUpload = () => {
     formData.append('file', uploadedFile);
     setLoading(true);
 
-    // Upload file and fetch summary
     axios.post('http://localhost:5000/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
-    .then(res => {
-      setPreviewData(res.data.preview || []);
-      return axios.post('http://localhost:5000/summary', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-    })
-    .then(res => {
-      const summary = res.data.summary || {};
-      const numeric = {};
-      Object.entries(summary).forEach(([col, stats]) => {
-        if (stats.mean !== undefined) {
-          numeric[col] = { mean: stats.mean, min: stats.min, max: stats.max, std: stats.std };
-        }
-      });
-      setNumericSummary(numeric);
-    })
-    .catch(err => {
-      setError(err.response?.data?.error || 'Error processing file.');
-    })
-    .finally(() => setLoading(false));
+      .then(res => {
+        setPreviewData(res.data.preview || []);
+        return axios.post('http://localhost:5000/summary', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+      })
+      .then(res => {
+        const summary = res.data.summary || {};
+        const numeric = {};
+        Object.entries(summary).forEach(([col, stats]) => {
+          if (stats.mean !== undefined) {
+            numeric[col] = { mean: stats.mean, min: stats.min, max: stats.max, std: stats.std };
+          }
+        });
+        setNumericSummary(numeric);
+      })
+      .catch(err => {
+        setError(err.response?.data?.error || 'Error processing file.');
+      })
+      .finally(() => setLoading(false));
   };
 
   const { getRootProps, getInputProps, open } = useDropzone({
@@ -62,38 +61,53 @@ const FileUpload = () => {
 
   return (
     <div>
-      {/* Upload Button */}
-      <div {...getRootProps()} className="upload-container">
-        <input {...getInputProps()} />
-        <button onClick={open} className="upload-button">
-          {file ? `Selected: ${file.name}` : 'Upload File'}
-        </button>
+      {/* Upload + Chart Controls Bar */}
+      <div className="control-bar">
+        {/* Upload Button */}
+        <div {...getRootProps()} className="upload-wrapper">
+          <input {...getInputProps()} />
+          <button onClick={open} className="upload-button">
+            {file ? `Selected: ${file.name}` : 'Upload File'}
+          </button>
+        </div>
+        {/* Chart Dropdown */}
+        {previewData.length > 0 && (
+          <ChartControls chartType={chartType} setChartType={setChartType} />
+        )}
       </div>
 
-      {loading && <p style={{ color:'#61dafb' }}>Uploading & processing...</p>}
-      {error && <p style={{ color:'#ff6b6b' }}>{error}</p>}
+      {/* Loading & Error Messages */}
+      {loading && <p style={{ color: '#61dafb' }}>Uploading & processing...</p>}
+      {error && <p style={{ color: '#ff6b6b' }}>{error}</p>}
 
-      {/* Chart Controls */}
-      {previewData.length > 0 && <ChartControls chartType={chartType} setChartType={setChartType} />}
-
-      {/* Side-by-side chart + data preview */}
+      {/* Chart + Data Preview */}
       {previewData.length > 0 && (
         <div className="chart-data-wrapper">
-          {/* Chart */}
           <div className="chart-container">
-            <VisualizationArea data={previewData} chartType={chartType} summary={numericSummary} />
+            <VisualizationArea
+              data={previewData}
+              chartType={chartType}
+              summary={numericSummary}
+            />
           </div>
 
-          {/* Scrollable Data Preview */}
           <div className="data-preview">
-            <h3>Data Preview:</h3>
+            <h2>Data Preview:</h2>
             <table>
               <thead>
-                <tr>{Object.keys(previewData[0]).map(key => <th key={key}>{key}</th>)}</tr>
+                <tr>
+                  {Object.keys(previewData[0]).map((key) => (
+                    <th key={key}>{key}</th>
+                  ))}
+                </tr>
               </thead>
               <tbody>
                 {previewData.map((row, idx) => (
-                  <tr key={idx}>{Object.values(row).map((val,i) => <td key={i}>{val}</td>)}</tr>
+                  <tr key={idx}>
+                    {Object.values(row).map((val, i) => (
+                      <td key={i}>{val}</td>
+                    ))}
+                  </tr>
                 ))}
               </tbody>
             </table>
